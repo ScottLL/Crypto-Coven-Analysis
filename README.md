@@ -77,38 +77,104 @@ In order to assess model fit, we applied 4 residual plot on our model to check i
 
 #### Plots for Soft Sklls count, Props Count, Total Price (Unit: Gwei) Count, Sold or Non-Sold 
 
-```{r,fig.height=8.5,fig.width=12,warning=FALSE,message=FALSE,fig.align='center'}
-plot3 = ggplot(nft_df, aes(x = soft_sklls)) +
-  geom_bar() +
-  ggtitle("Barplot for Soft Sklls Count") +
-  xlab('soft skills') +
-  geom_text(stat='count', aes(label=..count..), vjust=-0.5,size = 3) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1), 
-        plot.title = element_text(hjust = 0.5))
-plot4 = ggplot(nft_df, aes(x = props)) +
-  geom_bar() +
-  ggtitle("Barplot for Props Count") +
-  geom_text(stat='count', aes(label=..count..), vjust=-0.5,size = 3) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1), 
-        plot.title = element_text(hjust = 0.5))
 
-plot1 = ggplot(nft_df, aes(x = last_sale.total_price)) +
-  geom_freqpoly() +
-  ggtitle("Freqpoly Plot for Total Price (Unit: Gwei) Count") +
-  xlab('total price') +
-  geom_text(stat='count', aes(label=..count..), vjust=-0.5,size = 3) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1), 
-        plot.title = element_text(hjust = 0.5))
+![Screen Shot 2022-12-04 at 11 14 29 AM](https://user-images.githubusercontent.com/43226003/205502266-d2a2a266-8861-4698-92b4-b8c7e7fb8802.png)
 
-plot2 = ggplot(nft_df, aes(x = sale_status)) +
-  geom_bar() +
-  ggtitle("Barplot for Sold(1) or Not(0)") +
-  xlab('sale status') +
-  geom_text(stat='count', aes(label=..count..), vjust=-0.5,size = 3) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1), 
-        plot.title = element_text(hjust = 0.5))
-grid.arrange(plot1, plot2, plot3, plot4, ncol=2, nrow = 2)
+From the Frequence plot we can see the total price count distribution across the range, we can find out most Crypto Coven NFTs are low price, only a few NFTs been sold over $5e^{18}$ Gwei (5 ETH or $6275). The sale status count bar plot indicates that we have almost the same proportion of NFT's sold as NFT's not sold. This allows for simple interpretations of our logistic regression model results since our outcome variable is balanced. We also see that soft skills and props are roughly normally distributed and so Crypto Coven NFT's with very high or very low values are rare and is useful information for our analysis.
 
-```
+
+#### Bar plots for Body shape count, eyebrows count, background count, and Skin.Ton. count.  
+
+![Screen Shot 2022-12-04 at 11 15 26 AM](https://user-images.githubusercontent.com/43226003/205502315-04004080-f468-4a22-b223-f0e9b9eb1fe2.png)
+
+These 4 variables Skin.Tone, Body.Shape, Eyebrows, and Background are the most important variables since they are included either in our final logistic model or in the linear model. They are all multi-categorical variables and as we can see the counts of all subcategories of skin.Tone and Body.Shape are similar, while some subcategories of Eyebrows and Background are very rare and some has high frequency. The difference between these subcategories matters when we go further to reveal the relationship between the odds of sale and counts and the relationship between the price of NFTs and the counts of these features. Therefore, our next step is to give analysis using the models and present comparisons of rarity and the outcome variable we want to analyze (odds of sale and the price).  
+
+#### Comparison of the price and counts of subcategories of Skin.Tone, Eyebrows, Background  
+![Screen Shot 2022-12-04 at 11 17 09 AM](https://user-images.githubusercontent.com/43226003/205502393-3ba518a2-db9e-4c83-bcc4-8c97c525574e.png)
+For Skin.Tone, it seems that the distributions of counts and prices among diverse subcategories are not distinct. However, for eyebrows and backgrounds, some very rare subcategories have relatively high or even the highest mean value of last sale total price. For example, the Solid(Peach) and Solid(Lavender) background are very rare but they are the two subcategories with the highest and the second highest price among all types of backgrounds. Our conclusion in this part is that in terms of the price, the rarity of some features does provide high prices.  
+
+Since this conclusion contradicts the previous conclusion we obtained from the EDA part in the odds of sale analysis in a sense, we need further conduct the logistic regression model and linear regression model to check whether our hypothesis holds.
+
+
+### Final Linear Regression Model  
+
+
+#### Linear Regression Model Assessment 
+.
+
+After fitting the model we want to check that the model assumptions are not violated
+See Appendix for residual plots of linear model 
+
+\textbf{1. linearity:}  
+
+The p-value < 0.05, and therefore we reject the null hypothesis and conclude that the linear regression model is significant and there exists a linearity between the predictive variables and the price.  
+
+To check if the model that we selected follows the linear regression assumptions, we will plot the model summary plots and also interpret the F-statistic in the model results. The resulting plots are available in Appendix C.
+
+* Residuals and Fitted Plots: There is no pattern in the residual plot thus there is an independence of errors. 
+* Scale-Location Plot: The residuals are equally distributed over the range of predictors so we have Homogeneity assumption.
+* Normal Q-Q plot: All points are distributed along the reference line so residuals are normally distributed.
+* Residual vs Leverage Plot: There are no points outside the boundry so no high leverage points to be concerned with.
+
+
+
+$$\hat{Price_i} = \beta_0 + \beta_1 * Skin.Tone_i + \beta_2 * Eyebrows_i + \beta_3 * Background_i + \epsilon_i$$  
+<img width="932" alt="Screen Shot 2022-12-04 at 11 18 00 AM" src="https://user-images.githubusercontent.com/43226003/205502435-5cebb50b-7d04-4052-bf5d-5dea234cde4d.png">
+
+
+For this part of the price prediction, our goal of analysis is to determine what features of the coven witches are most strongly predict the last sale price. In the previous analysis we performed a priori stepwise-AIC variable selection to reduce the variables we include in the model and improve the predictive performance of our model. After this process we obtain only four variables, and they are Skin.Tone, Eyebrows, and Background. They are multi-categorical.  
+
+Our model shows that with a significance level of 0.012 < 0.05, with other features held constant, compared to Dawn, as Skin.Tone being Night, the estimated last_sale.total_price will increase by -1.470634e+17 unit. In addition, we are 95% confident that the true value of the increase in last_sale.total_price is between -2.62e+17 and	-3.19e+16.  
+
+Our model shows that with a significance level of 0.037 < 0.05, with other features held constant, compared to None, as Eyebrows being Arched (Brown), the estimated last_sale.total_price will increase by -2.95e+17 unit. In addition, we are 95% confident that the true value of the increase in last_sale.total_price is between -5.73e+17 and -1.72e+16.  
+
+Our model shows that with a significance level of 0.010 < 0.05, with other features held constant, compared to None, as Eyebrows being Bushy (Brown), the estimated last_sale.total_price will increase by -3.65e+17 unit. In addition, we are 95% confident that the true value of the increase in last_sale.total_price is between -6.42e+17 and -8.70e+16.  
+
+Our model shows that with a significance level of 0.005 < 0.05, with other features held constant, compared to None, as Eyebrows being Bushy (White), the estimated last_sale.total_price will increase by -3.966732e+17 unit. In addition, we are 95% confident that the true value of the increase in last_sale.total_price is between -6.74e+17 and -1.19e+17.  
+
+Our model shows that with a significance level of 0.026 < 0.05, with other features held constant, compared to None, as Eyebrows being Pencil (White), the estimated last_sale.total_price will increase by -3.17e+17 unit. In addition, we are 95% confident that the true value of the increase in last_sale.total_price is between -5.95e+17 and -3.83e+16.  
+
+Our model shows that with a significance level of 0.006 < 0.05, with other features held constant, compared to None, as Eyebrows being Round (Navy), the estimated last_sale.total_price will increase by -3.92e+17 unit. In addition, we are 95% confident that the true value of the increase in last_sale.total_price is between -6.70e+17 and -1.15e+17.  
+
+Our model shows that with a significance level of 0.012 < 0.05, with other features held constant, compared to None, as Eyebrows being Strong (Black), the estimated last_sale.total_price will increase by -3.55e+17 unit. In addition, we are 95% confident that the true value of the increase in last_sale.total_price is between -6.32e+17 and -7.84e+16.  
+
+Our model shows that with a significance level of 0.018 < 0.05, with other features held constant, compared to None, as Eyebrows being Thin Arched (Grey), the estimated last_sale.total_price will increase by -3.35e+17 unit. In addition, we are 95% confident that the true value of the increase in last_sale.total_price is between -6.11e+17 and -5.80e+16.  
+
+Our model shows that with a significance level of 0.000 < 0.05, with other features held constant, compared to Lavender, as Background being Solid (Lavender), the estimated last_sale.total_price will increase by 2.24e+18 unit. In addition, we are 95% confident that the true value of the increase in last_sale.total_price is between 1.15e+18 and	3.32e+18.  
+
+Our model shows that with a significance level of 0.000 < 0.05, with other features held constant, compared to Lavender, as Background being Solid (Peach), the estimated last_sale.total_price will increase by 6.21e+18 unit. In addition, we are 95% confident that the true value of the increase in last_sale.total_price is between 4.68e+18	and 7.75e+18.  
+
+### Final Logistic Regression Model 
+
+#### Logistic Regression Model Assessment
+
+After fitting the model we want to check that the model assumptions are not violated
+See Appendix for residual plots of linear model 
+
+To assess the fit of our logistic regression model we used a binned residual plot. The binned residual plot has all the residuals within the error bounds and thus our logit model satisfies the requirements and is a valid model for our data. 
+<img width="922" alt="Screen Shot 2022-12-04 at 11 31 44 AM" src="https://user-images.githubusercontent.com/43226003/205503145-66c2eb64-2e6c-419a-8006-84dce3d9cff5.png">
+
+
+From our final model only 1 sub feature was statistically significant. Our model shows that with a significance level of 0.006, with body shape held constant, the odds that a Coven Witch NFT is sold increases by 24% if the skin tone is "Midnight" instead of the baseline "Dawn". In addition, we are 95% confident that the true value of the increase in sale odds for Midnight skin tone is between 6.3% and 44%.
+
+While Body Shape: "Soft" and Skin Tone: "Day" do not have a significance level below the 0.05 standard threshold, they do have significance levels 0.075 and 0.052, respectively, which is less than the 0.1 threshold and thus I believe they could still provide some useful information. Our model shows that with a significance level of 0.052, with body shape held constant, the odds that a Coven Witch NFT is sold decreases by 13% if the skin tone is "Day" instead of the baseline "Dawn".
+We are 95% confident that the true value of the decrease in sale odds for "Day" skin tone is between 25% and 0%.
+Our model also shows that with a significance level of 0.075, with skin tone held constant, the odds that a Coven Witch NFT is sold increases by 9.6% if the body shape is "soft" instead of the baseline "Chiseled". We are 95% confident that the true value of the increase in sale odds for "Soft" body shape is between 0% and 22%. The exponentiated 95% confidence interval for all predictors is located in the appendix.
+
+The proportional bar plot above shows these sale proportion differences between the subcategories visually. We can see that midnight skin tone Crypto Coven's have a larger proportion of sales compared with the other skin tones and the day skin tone has a lower proportion of sales when compared with the rest of the skin tones. We also see this proportional sale difference with body shape but albeit a much more subtle difference. The soft body shape has a slightly higher proportion of sales compared to the other body shapes. This matches the relationships our logistic regression model identified.
+
+
+## Conclusion  
+As the result,we can find out that Skin tone and Body Shape are the most significant variables for NFT sale. After people make the buy decision, the factor of rarity is joined to affect the NFT price change. The rarer the elements, the higher the price. For example the eyebrow White and background peach are the rarest subcategories provide the highest sell compare with others. The evidence show that most people buy Crypto Coven NFTs with their first impression of preference for the NFTs. The appearance features are associated with buying or not buying, and the properties' rarity affects the buying price.
+
+#### Shorage 
+- As we conduct the model by adding the variables as one factor for soft skills and props, we might lose some detailed affections with those subcategories. We might continue working with soft skills and props for future analysis to see if the subcategories affect the predictor variables. 
+
+- the data only contains selling information before 2020 which is out of date. We are trying to apply the OpenSea API in the future to get updates data and informations.
+
+#### Challenge 
+- Due to the properties of NFT diversities, the model result might only fit some NFT projects across the board. As an example of a computer generating NFTs, Crypto Coven can represent this specific form and its communities. The model result might only reflect the buying preference in these communities. We need to do some more research on other NFT projects in order to apply the model result broadly. 
+
+- To apply the model convenience, we chose to make the dependent variable sold and not sold a binary variable, which ignored the number of sales. However, the buying behavior of crowd psychology might also affect the selling price and whether it has been sold. We will conduct future research on the variable affection for the number of sales. 
 
 
