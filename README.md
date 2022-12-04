@@ -56,7 +56,8 @@ For this part of the analysis we are trying to determine what features of the co
 
 * logit model assessment
 
-In order to assess model fit, we applied a binned residual plot on our model which is located in the appendix. 
+In order to assess model fit, we applied a binned residual plot on our model. 
+<img width="709" alt="Screen Shot 2022-12-04 at 11 34 32 AM" src="https://user-images.githubusercontent.com/43226003/205503327-f1359f27-1a46-4ba9-a758-0a56b64b85b1.png">
 
 
 #### Linear Regression Model 
@@ -69,7 +70,9 @@ After the AIC-selection, we choose our final linear regression model to determin
 
 * linear model assessment
 
-In order to assess model fit, we applied 4 residual plot on our model to check if  model assumptions are being met or not met which is located in the appendix.  
+In order to assess model fit, we applied 4 residual plot on our model to check if  model assumptions are being met or not met.
+
+![Screen Shot 2022-12-04 at 11 35 25 AM](https://user-images.githubusercontent.com/43226003/205503375-221dc0dd-5390-47e6-a128-ae1532a12e47.png)
 
 # Results  
 
