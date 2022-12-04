@@ -71,3 +71,44 @@ After the AIC-selection, we choose our final linear regression model to determin
 
 In order to assess model fit, we applied 4 residual plot on our model to check if  model assumptions are being met or not met which is located in the appendix.  
 
+# Results  
+
+### EDA  
+
+#### Plots for Soft Sklls count, Props Count, Total Price (Unit: Gwei) Count, Sold or Non-Sold 
+
+```{r,fig.height=8.5,fig.width=12,warning=FALSE,message=FALSE,fig.align='center'}
+plot3 = ggplot(nft_df, aes(x = soft_sklls)) +
+  geom_bar() +
+  ggtitle("Barplot for Soft Sklls Count") +
+  xlab('soft skills') +
+  geom_text(stat='count', aes(label=..count..), vjust=-0.5,size = 3) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1), 
+        plot.title = element_text(hjust = 0.5))
+plot4 = ggplot(nft_df, aes(x = props)) +
+  geom_bar() +
+  ggtitle("Barplot for Props Count") +
+  geom_text(stat='count', aes(label=..count..), vjust=-0.5,size = 3) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1), 
+        plot.title = element_text(hjust = 0.5))
+
+plot1 = ggplot(nft_df, aes(x = last_sale.total_price)) +
+  geom_freqpoly() +
+  ggtitle("Freqpoly Plot for Total Price (Unit: Gwei) Count") +
+  xlab('total price') +
+  geom_text(stat='count', aes(label=..count..), vjust=-0.5,size = 3) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1), 
+        plot.title = element_text(hjust = 0.5))
+
+plot2 = ggplot(nft_df, aes(x = sale_status)) +
+  geom_bar() +
+  ggtitle("Barplot for Sold(1) or Not(0)") +
+  xlab('sale status') +
+  geom_text(stat='count', aes(label=..count..), vjust=-0.5,size = 3) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1), 
+        plot.title = element_text(hjust = 0.5))
+grid.arrange(plot1, plot2, plot3, plot4, ncol=2, nrow = 2)
+
+```
+
+
