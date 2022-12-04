@@ -3,7 +3,7 @@
 
 In this analysis we are using the Crypto Coven NFT data set to try and answer two questions, what factors influence the likelihood of a Crypto Coven sale and what factors are associated with the increase in Crypto Coven price. The motivation and working hypothesis before conducting this analysis was that feature rarity was a major driver for both components. Our results indicate that this hypothesis was partially true, the rareness of a characteristic is highly correlated with price; however, the likelihood of a sale is most strongly associated with upfront and obvious characteristics like facial structure and skin tone. 
 
-![Subject 5](https://user-images.githubusercontent.com/43226003/205502099-5904e0d5-2182-4e90-acca-4db31f9b50e5.png)
+![Subject 2](https://user-images.githubusercontent.com/43226003/205502131-515b478f-f912-483e-8f15-acc02570840d.png)
 
 
 ## Introduction  
