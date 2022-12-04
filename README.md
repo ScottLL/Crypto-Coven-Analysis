@@ -1,7 +1,10 @@
+# Crypto Coven Analysis
+
 ---
 title: "Crypto-Coven-Analysis"
 author: "Scott Lai, Zhonglin Wang, Dany Jabban"
 date: "2022-12-4"
+
 ---
 
 ## Abstract  
