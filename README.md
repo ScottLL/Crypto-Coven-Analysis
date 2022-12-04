@@ -1,4 +1,9 @@
-# Crypto-Coven-Analysis
+---
+title: "Crypto-Coven-Analysis"
+author: "Scott Lai, Zhonglin Wang, Dany Jabban"
+date: "2022-12-4"
+---
+
 ## Abstract  
 
 In this analysis we are using the Crypto Coven NFT data set to try and answer two questions, what factors influence the likelihood of a Crypto Coven sale and what factors are associated with the increase in Crypto Coven price. The motivation and working hypothesis before conducting this analysis was that feature rarity was a major driver for both components. Our results indicate that this hypothesis was partially true, the rareness of a characteristic is highly correlated with price; however, the likelihood of a sale is most strongly associated with upfront and obvious characteristics like facial structure and skin tone. 
